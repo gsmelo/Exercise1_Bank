@@ -1,9 +1,7 @@
 package bank.model;
 
-
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Requires;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -12,22 +10,34 @@ import java.util.Objects;
 
 public class CheckingAccount {
 
-    public CheckingAccount(String cardholderName, String accountNumber, BigDecimal balance){
+    public CheckingAccount(String cardholderName, String accountNumber, String balance){
         this.cardholderName = cardholderName;
         this.accountNumber = accountNumber;
-        this.balance = balance;
+        this.balance = new BigDecimal(balance);
     }
 
     public CheckingAccount() { }
-
 
     private String cardholderName;
     private String accountNumber;
     private BigDecimal balance;
 
+    public String getAccountNumber() {
+
+        return this.accountNumber;
+    }
+
+    public BigDecimal getBalance() {
+
+        return balance;
+    }
+
+
     // @Requires("balance > withdrawalAmount")
     public void withdraw(BigDecimal withdrawalAmount){
-        balance = balance.subtract(withdrawalAmount);
+
+        balance.subtract(withdrawalAmount);
+
     }
 
     public static void deposit(BigDecimal amount, CheckingAccount destinationAccount){
@@ -37,14 +47,6 @@ public class CheckingAccount {
     public void transfer(BigDecimal amount, CheckingAccount destinationAccount, CheckingAccount originAccount){
         originAccount.balance = originAccount.balance.subtract(amount);
         destinationAccount.balance = destinationAccount.balance.add(amount);
-    }
-
-    public String getAccountNumber() {
-        return this.accountNumber;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
     }
 
     @Override

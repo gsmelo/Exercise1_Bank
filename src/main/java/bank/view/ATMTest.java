@@ -11,35 +11,6 @@ import java.util.Scanner;
 
 public class ATMTest {
 
-    CheckingAccount account1 = new CheckingAccount("João da Silva", "54125-9", new BigDecimal("10854.78"));
-    CheckingAccount account2 = new CheckingAccount("Pedro Otávio Magalhães", "25214-8", new BigDecimal("1050.99"));
-    CheckingAccount account3 = new CheckingAccount("Maria Green", "88452-1", new BigDecimal("7696.00"));
-    CheckingAccount account4 = new CheckingAccount("Stephan Pereira", "15935-7", new BigDecimal("412.13"));
-
-    ArrayList<CheckingAccount> accounts = new ArrayList<>();
-
-    public void makingARepository(){
-        accounts.add(account1);
-        accounts.add(account2);
-        accounts.add(account3);
-        accounts.add(account4);
-    }
-
-    public CheckingAccount findAccount(String accountNumber){
-        makingARepository();
-        for (CheckingAccount account: accounts) {
-            System.out.println("Conta que está sendo procurada:" + account.getAccountNumber() + " digitada: " + accountNumber);
-            System.out.println(account.getAccountNumber().equals(accountNumber));
-            if(account.getAccountNumber().equals(accountNumber)){
-                System.out.println("O numero da conta encontrada foi:" + account.getAccountNumber());
-                return account;
-            }
-        }
-        System.out.println("n deu em nada");
-        return null;
-    }
-
-
     public static void main(String[] args) {
 
 
@@ -50,7 +21,7 @@ public class ATMTest {
 
             String checkingAccountNumber = sc.next();
 
-            CheckingAccount currentCheckingAccount = new ATMTest().findAccount(checkingAccountNumber);
+            CheckingAccount currentCheckingAccount = new CheckingAccountRepository().findAccount(checkingAccountNumber);
 
             // validar numero da conta corrente
 
@@ -69,17 +40,17 @@ public class ATMTest {
                 case 1: System.out.println("Vc escolheu a opção 1");
                 case 2: System.out.println("Vc escolheu a opção 2");
                 case 3: {System.out.println("What is the destination account's number?");
-                    String destinationAccountNumber = sc.next();
 
-                    //melhorar essa linha
-                    CheckingAccount destinationCheckingAccount = new ATMTest().findAccount(destinationAccountNumber);
+                    String destinationAccountNumber = sc.next();
+                    CheckingAccount destinationCheckingAccount = new CheckingAccountRepository().findAccount(destinationAccountNumber);
 
                     System.out.println("How much do you want to deposit?");
-                    String amountOfMoney = sc.next();
 
-                    //melhorar essa linha
+                    String amountOfMoney = sc.next();
                     CheckingAccount.deposit(new BigDecimal(amountOfMoney), destinationCheckingAccount);
+
                     System.out.println(destinationCheckingAccount.getBalance());
+
                     break;
                 }
 
@@ -98,9 +69,6 @@ public class ATMTest {
                 default:
                     throw new IllegalStateException("Unexpected value: " + chosenOption);
             }
-
-            CheckingAccount account1 = new CheckingAccount("João da Silva", "54125-9", new BigDecimal("10500"));
-            account1.withdraw(new BigDecimal("15000"));
 
         } while(chosenOption != 6);
 
