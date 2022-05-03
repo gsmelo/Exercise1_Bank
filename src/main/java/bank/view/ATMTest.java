@@ -1,65 +1,73 @@
 package bank.view;
 
+import bank.model.ATM;
 import bank.model.CheckingAccount;
 import bank.model.CheckingAccountRepository;
+import bank.model.Money;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Scanner;
-
-// I think this is the View in the MVC pattern
 
 public class ATMTest {
 
     public static void main(String[] args) {
 
-
+            System.out.println("\n\n*** Welcome to ATM v1.0 ***" + "\nPlease, insert your checking account number");
             Scanner sc = new Scanner(System.in);
-
-            System.out.println("*** Welcome to ATM v1.0 ***");
-            System.out.println("Please, insert your checking account number");
-
             String checkingAccountNumber = sc.next();
 
             CheckingAccount currentCheckingAccount = new CheckingAccountRepository().findAccount(checkingAccountNumber);
-
-            // validar numero da conta corrente
-
+            ATM ATM = new ATM(new Money(5, 100), new Money(5, 50), new Money(5,20), new Money(15,10));
             int chosenOption;
 
         do {
 
-            System.out.println("Choose an option, please \n\n1 - Balance");
-            System.out.println("2 - Withdraw (available banknotes: " + "inserir notas disponíveis aqui");
-            System.out.println("3 - Deposit \n4 - Transfer \n5 - Bank Statement \n6 - Exit");
-
+            System.out.println("\nChoose an option, please \n\n1 - Balance " +
+                    "\n2 - Withdraw (available banknotes: " + "inserir notas disponíveis aqui" +
+                    "\n3 - Deposit \n4 - Transfer \n5 - Bank Statement \n6 - Exit");
             chosenOption = Integer.parseInt(sc.next());
 
             switch (chosenOption) {
-                // PAY ATTENTION HERE, NEED TO FIX IT
-                case 1: System.out.println("Vc escolheu a opção 1");
-                case 2: System.out.println("Vc escolheu a opção 2");
-                case 3: {System.out.println("What is the destination account's number?");
+                case 1: {System.out.println("Option #1: Balance");
 
+                    System.out.println("Your current balance is: R$" + currentCheckingAccount.getBalance());
+                    break;
+                }
+
+                case 2: {
+                    // here I still need to show the available money,
+                    // and a final message to tell if the operation was well succeed
+                    System.out.println("What amount of money do you want to withdraw?");
+                    String amountOfMoney = sc.next();
+                    ATM.withdraw(currentCheckingAccount, amountOfMoney);
+
+                    break;
+                }
+                case 3: {System.out.println("What is the destination account's number?");
                     String destinationAccountNumber = sc.next();
                     CheckingAccount destinationCheckingAccount = new CheckingAccountRepository().findAccount(destinationAccountNumber);
 
                     System.out.println("How much do you want to deposit?");
-
                     String amountOfMoney = sc.next();
-                    CheckingAccount.deposit(new BigDecimal(amountOfMoney), destinationCheckingAccount);
-
-                    System.out.println(destinationCheckingAccount.getBalance());
+                    bank.model.ATM.deposit(destinationCheckingAccount, amountOfMoney);
 
                     break;
                 }
 
-                case 4: {
-                    System.out.println("Vc escolheu a opção 4");
+                case 4: {System.out.println("Option #4: Transfer");
+
+                    System.out.println("What is the destination account's number?");
+                    String destinationAccountNumber = sc.next();
+                    CheckingAccount destinationCheckingAccount = new CheckingAccountRepository().findAccount(destinationAccountNumber);
+
+                    System.out.println("How much do you want to transfer?");
+                    String amountOfMoney = sc.next();
+                    ATM.transfer(destinationCheckingAccount, currentCheckingAccount, amountOfMoney);
+
                     break;
                 }
                 case 5: {
-                    System.out.println("Vc escolheu a opção 5");
+                    System.out.println("Option #5: Bank Statement");
+                    // here I need to think about the events
                     break;
                 }
                 case 6: {

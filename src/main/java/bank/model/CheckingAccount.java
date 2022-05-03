@@ -3,10 +3,7 @@ package bank.model;
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Requires;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Objects;
-
-// I think this is the Model in MVC
 
 public class CheckingAccount {
 
@@ -16,37 +13,20 @@ public class CheckingAccount {
         this.balance = new BigDecimal(balance);
     }
 
-    public CheckingAccount() { }
-
-    private String cardholderName;
-    private String accountNumber;
+    private final String cardholderName;
+    private final String accountNumber;
     private BigDecimal balance;
 
     public String getAccountNumber() {
-
         return this.accountNumber;
     }
 
     public BigDecimal getBalance() {
-
         return balance;
     }
 
-
-    // @Requires("balance > withdrawalAmount")
-    public void withdraw(BigDecimal withdrawalAmount){
-
-        balance.subtract(withdrawalAmount);
-
-    }
-
-    public static void deposit(BigDecimal amount, CheckingAccount destinationAccount){
-        destinationAccount.balance = destinationAccount.getBalance().add(amount);
-    }
-
-    public void transfer(BigDecimal amount, CheckingAccount destinationAccount, CheckingAccount originAccount){
-        originAccount.balance = originAccount.balance.subtract(amount);
-        destinationAccount.balance = destinationAccount.balance.add(amount);
+    public BigDecimal setBalance(BigDecimal value) {
+        return this.balance = value;
     }
 
     @Override
@@ -61,4 +41,5 @@ public class CheckingAccount {
     public int hashCode() {
         return Objects.hash(accountNumber);
     }
+
 }
