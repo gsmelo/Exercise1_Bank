@@ -1,4 +1,4 @@
-package bank.model;
+package bank.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class CheckingAccountRepository{
     CheckingAccount account3 = new CheckingAccount("Maria Green", "88452-1", "7696.00");
     CheckingAccount account4 = new CheckingAccount("Stephan Pereira", "15935-7", "412.13");
 
-    List<CheckingAccount> accounts = new ArrayList<>();
+    private final List<CheckingAccount> accounts = new ArrayList<>();
 
     public void makingARepository(){
         accounts.add(account1);
@@ -27,6 +27,7 @@ public class CheckingAccountRepository{
             if(account.getAccountNumber().equals(accountNumber)){
                // System.out.println("O numero da conta encontrada foi:" + account.getAccountNumber());
                 return account;
+
             }
         }
         // System.out.println("n deu em nada");

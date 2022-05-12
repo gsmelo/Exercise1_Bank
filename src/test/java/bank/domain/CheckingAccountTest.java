@@ -1,6 +1,4 @@
-package bank.model;
-
-import static org.junit.jupiter.api.Assertions.*;
+package bank.domain;
 
 class CheckingAccountTest {
 

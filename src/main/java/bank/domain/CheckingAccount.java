@@ -1,7 +1,5 @@
-package bank.model;
+package bank.domain;
 
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
 import java.math.BigDecimal;
 import java.util.Objects;
 
