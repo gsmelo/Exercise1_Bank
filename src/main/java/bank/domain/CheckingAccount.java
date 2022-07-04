@@ -1,9 +1,10 @@
 package bank.domain;
 
+import javax.naming.InsufficientResourcesException;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class CheckingAccount {
+public class CheckingAccount implements Account {
 
     public CheckingAccount(String cardholderName, String accountNumber, String balance){
         this.cardholderName = cardholderName;
@@ -15,16 +16,12 @@ public class CheckingAccount {
     private final String accountNumber;
     private BigDecimal balance;
 
+    private void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
     public String getAccountNumber() {
         return this.accountNumber;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public BigDecimal setBalance(BigDecimal value) {
-        return this.balance = value;
     }
 
     @Override
@@ -38,6 +35,25 @@ public class CheckingAccount {
     @Override
     public int hashCode() {
         return Objects.hash(accountNumber);
+    }
+
+    @Override
+    public BigDecimal getBalance() {
+        return this.balance;
+    }
+
+    @Override
+    public void removeVirtualMoney(BigDecimal amountOfMoney) throws InsufficientBalanceException {
+        if(this.getBalance().compareTo(amountOfMoney) > -1){
+            this.setBalance(this.balance.subtract(amountOfMoney));
+        }
+        else throw new InsufficientBalanceException();
+    }
+
+    @Override
+    public void addMoney(BigDecimal amountOfMoney) {
+        this.setBalance(this.balance.add(amountOfMoney));
+
     }
 
 }
